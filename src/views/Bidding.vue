@@ -1,6 +1,6 @@
 <template>
   <div class="bidding">
-      {{ this.$router.params.id }}
+
   </div>
 </template>
 

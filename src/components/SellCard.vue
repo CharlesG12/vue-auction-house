@@ -4,11 +4,12 @@
       <div class="info">
         <h3 class="title">{{ name }}</h3>
         <h3>{{ startDate }}</h3>
+        <h3>{{ id }}</h3>
         <div> </div>
         <Countdown :end="startDate"></Countdown>
       </div>
       <div class="bu">
-          <div class="button" @click="enterbid">
+          <div class="button" @click="delteItem">
             <span>DELETE</span>
           </div>
       </div>
@@ -26,13 +27,14 @@ export default {
   name: "selling-card",
   components: { Countdown },
   methods: {
-    enterbid: function(event) {
+    delteItem: function(event) {
       if (event) {
-        // this.$router.push({ path: 'bidding' })
+        console.log(this.id)
+        this.$store.dispatch("deleteSaleItem", parseInt(this.id))
       }
     }
   },
-  props: ["name", "startDate", 'startPrice', "image", "description"]
+  props: ["id", "name", "startDate", 'startPrice', "image", "description"]
 };
 </script>
 

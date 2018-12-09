@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import router from "@/router"
 
 Vue.use(Vuex);
 
@@ -14,7 +15,10 @@ export default new Vuex.Store({
         startDate: "Dec 11 2018 13:20",
         description:
           "This is an example description",
-        image: require("@/assets/pics/abs1.jpg")
+        image: require("@/assets/pics/abs1.jpg"),
+        bidlist: [{ date: "20 Nov 2018", time: "12:25", price:"Sean bid for $2003"},
+                  { date: "20 Nov 2018", time: "12:24", price:"Peter bid for $2004"},
+                  { date: "20 Nov 2018", time: "12:23", price:"Chole bid for $2005"}]
       },
       {
         id: 124,
@@ -23,7 +27,10 @@ export default new Vuex.Store({
         startDate: "Dec 11 2018 13:30",
         description:
         "This is an example description",
-        image: "https://www.louvre.fr/sites/default/files/imagecache/940x768/medias/medias_images/images/louvre-allegorie-fortune-fortuna-marina.jpg"
+        image: "https://www.louvre.fr/sites/default/files/imagecache/940x768/medias/medias_images/images/louvre-allegorie-fortune-fortuna-marina.jpg",
+        bidlist: [{ date: "20 Nov 2018", time: "12:25", price:"Sean bid for $2003"},
+                  { date: "20 Nov 2018", time: "12:24", price:"Peter bid for $2004"},
+                  { date: "20 Nov 2018", time: "12:23", price:"Chole bid for $2005"}]
       },
       {
         id: 125,
@@ -42,7 +49,9 @@ export default new Vuex.Store({
         description:
           "This is an example description",
         image: require("@/assets/pics/actor-adult-ancient.jpg"),
-        bidinfo: ["Sean bid for $2003", "Peter bid for $2004", "Chole bid for $2005"]
+        bidlist: [{ date: "20 Nov 2018", time: "12:25", price:"Sean bid for $2003"},
+                  { date: "20 Nov 2018", time: "12:24", price:"Peter bid for $2004"},
+                  { date: "20 Nov 2018", time: "12:23", price:"Chole bid for $2005"}]
       }
     ],
     sell_items: [
@@ -93,13 +102,17 @@ export default new Vuex.Store({
     sellitemResult: state => state.sell_items,
     loginStatus: state => state.loggedIn,
     getItemById: state => (id) => { 
-      console.log( state.buy_items.filter( item => item.id === id ))
-      return state.buy_items.filter( item => item.id === id )
+      console.log(router.currentRoute.params.id)
+      let current_id = router.currentRoute.params.id;
+     // console.log( state.buy_items.filter( item => item.id === id ))
+      let result = state.buy_items.filter( item => item.id === parseInt(current_id) )
+      return result === null ? "none" : result;
     }
   },
   mutations: {
     UPDATE_SELL_LIST(state, result) { state.sell_items = result },
     UPDATE_BID_LIST(state, result) { state.buy_items = result },
+    DELETE_SALE_ITEM(state, result) { state.sell_items = state.sell_items.filter( x => x.id != result )}
   },
   actions: {
     fetch_sell_list(context, param) {
@@ -109,7 +122,9 @@ export default new Vuex.Store({
       context.commit('UPDATE_BID_LIST', param)
     },
     getcurrentItemInfo(context, param) {
-      
+    },
+    deleteSaleItem(context, param) {
+      context.commit('DELETE_SALE_ITEM', param)
     }
   }
 });

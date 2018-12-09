@@ -3,6 +3,7 @@
     <div class="bidItemsSection">
       <selling-card v-for="(item, index) in getsellItems"
         :key=index
+        :id="item.id"
         :name="item.name"
         :image="item.image"
         desciption="In the seventeenth century, Iranian imitations of Chinese blue-and-white export porcelain increased markedly."
