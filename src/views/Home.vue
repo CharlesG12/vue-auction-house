@@ -1,21 +1,28 @@
 <template>
   <div class="buy">
-    <!-- <div>
-      Carousel
-      <MyCarousel >
-      </MyCarousel>
-    </div> -->
     <div class="bidItemsSection">
+      <div class="row date-select">
+        <div class="col"></div>
+        <div class="col">
+          <v-date-picker 
+            class="datepicker" mode="range"
+            :min-date='new Date()'
+            v-model="this.selectedDates"
+            show-caps>
+          </v-date-picker>
+        </div>
+        <div class="col">
+          <button @click="updateSellItems">UPDATE</button>
+        </div>
+        <div class="col"></div>
+      </div>
       <bidding-card v-for="(item, index) in getbuyItems"
         :key=index
         :id="item.id"
         :name="item.name"
         :image="item.image"
-        desciption="In the seventeenth century, Iranian imitations of Chinese blue-and-white export porcelain increased markedly."
         :startDate="item.startDate">
       </bidding-card>
-    </div>
-    <div>
     </div>
   </div>
 </template>
@@ -25,6 +32,22 @@ import MyCarousel from "@/components/Carousel.vue";
 
 export default {
   name: "home",
+  data() {
+    return {
+      selectedDates: {
+        start: new Date(),
+        end: null
+      }
+    }
+  },
+  methods: {
+    updateSellItems() {
+      console.log("hi")
+      // console.log(this.selectedDates)
+      let range = this.$store.state.sell_date_range
+      this.$store.dispatch("getSellItemsInRange", range)
+    }
+  },
   computed: {
     getbuyItems() {
       console.log( this.$store.getters.buyitemResult )
@@ -44,10 +67,28 @@ export default {
 
   .bidItemsSection {
     width: 460px;
-    margin: 0 auto;
+    margin: 5px auto;
 
     .bidding-card {
       float: left;
+    }
+
+    .date-select{
+      button {
+        border-radius: 3px;
+      }
+    }
+  }
+
+  .dateSe {
+    margin: 10px 0px 0px 0px;
+    
+    .datepicker {
+      margin: 0 auto;
+    }
+
+    a {
+      color: black;
     }
   }
 }

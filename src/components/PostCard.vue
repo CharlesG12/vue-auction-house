@@ -251,6 +251,7 @@ export default {
       height: 5%;
       width: 100%;
       margin: 0px 0px 20px 5px;
+      float: left;
 
       label {
         color: black;

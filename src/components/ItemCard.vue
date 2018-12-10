@@ -1,8 +1,8 @@
 <template>
     <div class="itemcard">
-      <div class="container-fluid">
+      <div class="container">
         <div class="row">
-          <div class="col info">
+          <div class="info">
             <div>{{ getItemById[0].name }}</div>
             <div>{{ getItemById[0].description }} </div>
             <div> 
@@ -10,7 +10,7 @@
               </bidlist>
             </div>
           </div>
-          <div class="col col-lg-2">
+          <div class="image">
             <div class="image" :style="{ 'background-image': `url('${getItemById[0].image}')` }"></div>
             <div>
               <bid>
@@ -60,6 +60,15 @@ export default {
   box-shadow: 0 0 7px 0 #cfcfc4;
   overflow: hidden;
   color: black;
+
+  .container {
+    width: 100%;
+  }
+
+  .row {
+    width: 100%;
+    margin: 0 auto;
+  }
 
   .info, .image {
     margin: 15px auto;
