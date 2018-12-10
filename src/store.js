@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     loggedIn: true,
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJ1c2VySWQiOiI1YzBkODE5ZTY5MGU1YTZiYTBiNDAzMWUiLCJpYXQiOjE1NDQzODkxMzUsImV4cCI6MTU0NDQ3NTUzNSwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIiwianRpIjoiYzQ2NzYwZjYtNmQ0ZC00YzNiLTkyYzctMjkzYTE3MDM0NWQ2In0.AFJ9CFxfqxP_oLunwLOQIsmv3T7yWzvg7ChwCB3R7AA",
     buy_items: [
       {
         id: 123,
@@ -95,6 +96,20 @@ export default new Vuex.Store({
         image: require("@/assets/pics/actor-adult-ancient.jpg"),
         bidinfo: ["Sean bid for $2003", "Peter bid for $2004", "Chole bid for $2005"]
       }
+    ],
+    available_dates: [
+      { 
+        date: new Date(2018, 11, 11),
+        timeslots: ["13:20-13:40", "13:40-14:00", "14:00-14:20"]
+      },
+      { 
+        date: new Date(2018, 11, 14),
+        timeslots: ["8:20-8:40", "8:40-9:00", "10:00-10:20"]
+      },
+      { 
+        date: new Date(2018, 11, 14),
+        timeslots: ["13:20-13:40", "13:40-14:00", "14:00-14:20"]
+      }
     ]
   },
   getters: {
@@ -107,7 +122,9 @@ export default new Vuex.Store({
      // console.log( state.buy_items.filter( item => item.id === id ))
       let result = state.buy_items.filter( item => item.id === parseInt(current_id) )
       return result === null ? "none" : result;
-    }
+    },
+    getavailableDates: state => state.available_dates,
+    getToken: state => state.token
   },
   mutations: {
     UPDATE_SELL_LIST(state, result) { state.sell_items = result },

@@ -1,6 +1,9 @@
 <template>
   <div class="bidding-card">
-    <div class="left-box">
+    <div class="upper-box"
+      :style="{ 'background-image': `url('${image}')` }">
+    </div>
+    <div class="lower-box">
       <div class="info">
         <h3 class="title">{{ name }}</h3>
         <h3>{{ startDate }}</h3>
@@ -13,9 +16,6 @@
             <div>NOW</div>
           </div>
       </div>
-    </div>
-    <div class="right-box"
-      :style="{ 'background-image': `url('${image}')` }">
     </div>
   </div>
 </template>
@@ -40,30 +40,27 @@ export default {
 
 <style lang="scss">
 .bidding-card {
-  width: 580px;
-  height: 250px;
-  background-color: #000;
+  width: 200px;
+  height: 400px;
+  background-color: #111;
   border-radius: 2px;
   margin: 15px;
-  box-shadow: 0 0 7px 0 #cfcfc4;
+  box-shadow: 0 0 7px 0 #0000007a;
   overflow: hidden;
-  font-family: "Bree Serif", serif;
   text-transform: uppercase;
 
-  .left-box {
-    float: left;
-    width: 45%;
-    height: 100%;
+  .lower-box {
+    width: 100%;
+    height: 50%;
     margin: 0;
 
     .info {
-      height: 75%;
       width: 100%;
       margin: 0px;
       position: relative;
 
       .title {
-        margin-top: 5px;
+        font-size: 12px;
       } 
     }
 
@@ -122,10 +119,9 @@ export default {
     }
   }
 
-  .right-box {
-    float: left;
-    width: 55%;
-    height: 100%;
+  .upper-box {
+    width: 100%;
+    height: 50%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

@@ -13,15 +13,15 @@
         <table>
           <tr>
             <td><label class="text">Start Price:</label></td>
-            <td><input v-model="price" placeholder="edit me"></td>
+            <td><input type="number" v-model="price" placeholder="enter price"></td>
             <td></td>
           </tr>
           <tr>
             <td><label>Select Date:</label></td>
             <td>
-              <v-date-picker class="datepicker"
-                :available-dates='{ start: new Date(), end: null }'
-                :min-date='new Date()'
+              <v-date-picker 
+                class="datepicker" mode="single"
+                :available-dates="this.availableDate"
                 v-model='selectedDate'>
               </v-date-picker>
             </td>
@@ -48,7 +48,7 @@
           <input type="file" @change="onFileChanged">
         </div>
       </div>
-      <div class="button" @click="upload">
+      <div class="button" @click="onUpload">
         <span class="text">submit</span> 
       </div>
     </div>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import axios from "axios"
 
 export default {
   name: "postCard",
@@ -64,20 +65,64 @@ export default {
       title: "",
       price: "",
       selectedDate: null,
-      selectedTime: "",
+      selectedTime: null,
       selectedFile: null,
       description: "",
-      openSlots: ["13:30 - 13:20", "13:40 - 14:00", "14:00 - 14:20"]
+      openSlots: ["13:20-13:40", "13:40-14:00", "14:00-14:20"],
+      availableDate: null
+    }
+  },
+  created() {
+    let data = this.$store.getters.getavailableDates
+    let _avaDates = []
+    for(var i = 0; i < data.length; i++) {
+      _avaDates.push({ start: data[i].date, end: data[i].date})
+    }
+
+    this.availableDate = _avaDates
+  },
+  watch: {
+    selectedDate: function(val) {
+      let data = this.$store.getters.getavailableDates
+      let temp = data.filter( x => x.date.getTime() === val.getTime() )
+      this.openSlots = temp[0].timeslots
+      // console.log(temp[0])
     }
   },
   methods: {
     onFileChanged (event) {
       this.selectedFile = event.target.files[0]
     },
-    upload: function(event) {
+    onUpload: function(event) {
       if (event) {
-        console.log("upload");
-        window.open(this.url, "_blank");
+        const fd = new FormData();
+        fd.append('image', this.selectedFile, this.selectedFile.name)
+        fd.set("product_name", this.$data.title);
+        fd.set("current_price", this.$data.price);
+
+        let regex = /([\d]*:[\d]*)/;
+        let timeslot = "13:20-13:40";
+        let startDate = this.$data.selectedDate
+        let date = startDate.getDay() + " " + startDate.getMonth() + " " + startDate.getFullYear()
+        let startTime =  date + " " + timeslot.match(regex)[1];
+        let endTime = date + " " + timeslot.match(regex)[2];
+
+        fd.set("start_time", startTime);
+        fd.set("end_time", endTime);
+        fd.set("accessToken", this.$store.getters.getToken)
+        
+        console.log("title " + this.$data.title);
+        console.log("price " + this.$data.price);
+        console.log("description " + this.$data.description);
+        console.log("time " + startTime);
+        console.log(fd)
+        axios.post('http://localhost:3030/postitems', fd)
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       }
     }
   }

@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/"><span>Home</span></router-link>
-      <router-link to="/user"><span>Profile</span></router-link>
-      <router-link to="/sale"><span>Post New Item</span></router-link>
-      <router-link to="/listSale"><span>My Sale Items</span></router-link>
+      <router-link :to="'/'"><span>Home</span></router-link>
+      <router-link :to="'/user'"><span>Profile</span></router-link>
+      <router-link :to="'/sale'"><span>Post New</span></router-link>
+      <router-link :to="'/listSale'"><span>Sale Items</span></router-link>
     </div>
     <router-view/>
     <!-- <bidding-card name="china"
@@ -24,8 +24,11 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Carter+One');
+
 body {
   margin: 0;
+  background-color: #fff;
 }
 
 #app {
@@ -34,20 +37,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #ffffff;
-}
 
-#nav {
-  width: 100%;
-  height: 25px;
-  background-color: #fff;
-  margin: 0 auto;
-  font-family: "Bree Serif", serif;
-  box-shadow: 0 0 7px 0 #cfcfc4;
-  
-  span {
-    color: #000;
-    margin: 10px;
-    text-decoration: none;
+  #nav {
+    width: 100%;
+    padding: 5px;
+    background-color: #fff;
+    margin: 0 auto;
+    box-shadow: 0 0 7px 0 #0000007a;
+    font-family: 'Carter One', cursive;
+
+    a {
+      font-size: 12px;
+      color: #444;
+      margin: 10px;
+      padding: 2px 10px;
+      text-decoration: none;
+    }
+    
+    a:hover {
+      text-decoration: none;
+      background-color: rgb(96, 170, 255);
+      color: #fff;
+      border-radius: 30px;
+    }
   }
 }
 </style>

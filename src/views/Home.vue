@@ -1,10 +1,10 @@
 <template>
   <div class="buy">
-    <div>
+    <!-- <div>
       Carousel
       <MyCarousel >
       </MyCarousel>
-    </div>
+    </div> -->
     <div class="bidItemsSection">
       <bidding-card v-for="(item, index) in getbuyItems"
         :key=index
@@ -37,13 +37,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss">
 .buy {
   width: 60%;
-  margin: auto;
-}
+  margin: 0 auto;
 
-.bidItemsSection {
-  width: 60%;
+  .bidItemsSection {
+    width: 460px;
+    margin: 0 auto;
+
+    .bidding-card {
+      float: left;
+    }
+  }
 }
 </style>

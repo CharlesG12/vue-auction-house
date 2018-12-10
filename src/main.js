@@ -7,10 +7,12 @@ import BiddingCard from "./components/BiddingCard.vue"
 import VCalendar from 'v-calendar';
 import 'v-calendar/lib/v-calendar.min.css';
 import AtUI from "at-ui"
+import axios from "axios"
 
 Vue.use(VueCarousel);
 Vue.use(VCalendar);
 Vue.use(AtUI);
+Vue.use(axios);
 
 Vue.component('bidding-card', BiddingCard)
 
