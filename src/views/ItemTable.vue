@@ -3,8 +3,7 @@
     <table-component
         :data="this.$store.state.itemtable"
         sort-by="songs"
-        sort-order="asc"
-        >
+        sort-order="asc">
         <table-column show="name" label="name"></table-column>
         <table-column show="initialPrice" label="Price"></table-column>
         <table-column show="startDate" label="StartDate"></table-column>

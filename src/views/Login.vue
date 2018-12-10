@@ -12,6 +12,7 @@
           <input type="password" v-model="password" class="form-control" placeholder="Password">
         </div>
         <button @click="login" class="btn btn-primary">Login</button>
+        <button @click="register" class="btn btn-primary">Register</button>
          <div class="form-group pwsretrive">
           <label @click="retrievepassword">forget password</label>
         </div>
@@ -31,10 +32,11 @@ export default {
     }
   },
   methods: {
+    register() {
+      this.$router.push({path: '/register'})
+    },
+
     login() {
-      // let params = [this.email, this.password]
-      // console.log("lo")
-      // this.$store.dispatch("login", params)
       axios({
         method: 'post',
         url: "http://localhost:3030/authentication",

@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    loggedIn: true,
+    isAdmin: false,
     profile: {
       // name: null,
       // email: null

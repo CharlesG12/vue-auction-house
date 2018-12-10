@@ -35,6 +35,15 @@ const router = new Router({
       }
     },
     {
+      path: "/adminschedule",
+      name: "adminschedule",
+      component: () => import("@/views/AdminEditSchedule.vue"),
+      beforeEnter(to, from, next) {
+        if (store.getters.getToken) next()
+        else next('/admin')
+      }
+    },
+    {
       path: "/listSale",
       name: "listSale",
       component: () =>
@@ -55,6 +64,16 @@ const router = new Router({
       }
     },
     {
+      path: "/schedule",
+      name: "schedule",
+      component: () =>
+        import("@/views/Schedule.vue"),
+      beforeEnter(to, from, next) {
+        if (store.getters.getToken) next()
+        else next('/login')
+      }
+    },
+    {
       path: "/login",
       name: "login",
       component: () => import("@/views/Login.vue")
@@ -63,6 +82,11 @@ const router = new Router({
       path: "/admin",
       name: "admin",
       component: () => import("@/views/Admin.vue")
+    },
+    {
+      path: "/register",
+      name: "register",
+      component: () => import("@/views/Register.vue")
     },
     {
       path: "/itemtable",

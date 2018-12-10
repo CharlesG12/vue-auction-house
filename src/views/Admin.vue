@@ -2,7 +2,7 @@
   <div class="admin-login">
     <div class="container">
       <h3>Admin Login</h3>
-      <form>
+      <div>
         <div class="form-group">
           <label>Email address</label>
           <input type="email" v-model="email" class="form-control" placeholder="Enter email">
@@ -12,24 +12,47 @@
           <input type="password" v-model="password" class="form-control" placeholder="Password">
         </div>
         <button type="submit" @click="login" class="btn btn-primary">Login</button>
-      </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import asxios from 'axios';
+import axios from 'axios';
 export default {
   name: "admin",
   data() {
     return {
-      email: null,
-      password: null
+      email: 'siiam@gmail.com',
+      password: 'sam'
     }
   },
   methods: {
-    login() {
-      
+     login() {
+      // let params = [this.email, this.password]
+      // console.log("lo")
+      // this.$store.dispatch("login", params)
+      axios({
+        method: 'post',
+        url: "http://localhost:3030/authentication",
+        data: {
+          "strategy": "local",
+          "email": this.email,
+          "password": this.password
+        }
+      })
+      .then(({ data }) => {
+        console.log("sucess")
+        this.$store.dispatch("updateToken", data.accessToken)
+        this.$store.state.isAdmin = true;
+        this.$router.push({path: '/adminschedule'})
+      })
+      .catch((error) => {
+        console.log("error");
+      })
+    },
+    retrievepassword(){
+      alert("retrieve password")
     }
   }
 }

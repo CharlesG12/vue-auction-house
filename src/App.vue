@@ -6,6 +6,7 @@
       <router-link :to="'/sale'"><span>Post New</span></router-link>
       <router-link :to="'/listSale'"><span>My Sales</span></router-link>
       <router-link :to="'/itemtable'"><span>Items Table</span></router-link>
+      <router-link :to="'/schedule'"><span>Auction Schedule</span></router-link>
       <a v-if="!$store.getters.getToken" class="login" @click="login">Login</a>
       <a v-else class="logout" @click="logout">Logout</a>
     </div>
@@ -19,6 +20,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("updateToken", null)
+      this.$store.state.isAdmin = false
       alert("You are log out now!")
       this.$router.push({path: '/'})
     },
