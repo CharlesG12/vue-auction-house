@@ -1,5 +1,5 @@
 <template>
-  <div class="auctionschedule">
+  <div class="ltemtable">
 
   </div>
 </template>
@@ -7,10 +7,9 @@
 <script>
 
 export default {
-  name: "auctionschedule",
+  name: "ltemtable",
   data() {
     return {
-      activeName: 'first'
     }
   },
   components: {
@@ -19,7 +18,7 @@ export default {
 </script>
 
 <style lang="scss">
-.auctionschedule {
+.ltemtable {
   width: 80%;
   margin: 0 auto;
   color: black;

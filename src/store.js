@@ -105,6 +105,28 @@ const store = new Vuex.Store({
         bidinfo: ["Sean bid for $2003", "Peter bid for $2004", "Chole bid for $2005"]
       }
     ],
+    searchedItems: [
+      {
+        id: 105,
+        name: "Sell Afterflow",
+        initialPrice: "20000",
+        startDate: "Dec 1 2018 13:40",
+        description:
+          "This is an example description",
+        image: require("@/assets/pics/afterglow.jpg"),
+        bidinfo: ["Sean bid for $2003", "Peter bid for $2004", "Chole bid for $2005"]
+      },
+      {
+        id: 145,
+        name: "Sell Ancient actor",
+        initialPrice: "20000",
+        startDate: "Dec 08 2018 13:50",
+        description:
+          "This is an example description",
+        image: require("@/assets/pics/actor-adult-ancient.jpg"),
+        bidinfo: ["Sean bid for $2003", "Peter bid for $2004", "Chole bid for $2005"]
+      }
+    ],
     available_dates: [
       { 
         date: new Date(2018, 11, 11),

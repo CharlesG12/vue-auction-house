@@ -4,8 +4,8 @@
       <router-link :to="'/'"><span>Home</span></router-link>
       <router-link :to="'/profile'"><span>Profile</span></router-link>
       <router-link :to="'/sale'"><span>Post New</span></router-link>
-      <router-link :to="'/listSale'"><span>Sale Items</span></router-link>
-      <router-link :to="'/auctionschedule'"><span>Auction Schedule</span></router-link>
+      <router-link :to="'/listSale'"><span>My Sales</span></router-link>
+      <router-link :to="'/itemtable'"><span>Items Table</span></router-link>
       <a v-if="!$store.getters.getToken" class="login" @click="login">Login</a>
       <a v-else class="logout" @click="logout">Logout</a>
     </div>

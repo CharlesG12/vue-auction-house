@@ -60,10 +60,10 @@ const router = new Router({
       component: () => import("@/views/Login.vue")
     },
     {
-      path: "/auctionschedule",
-      name: "auctionschedule",
+      path: "/itemtable",
+      name: "itemtable",
       component: () => 
-        import("@/views/AuctionSchedule.vue"),
+        import("@/views/ItemTable.vue"),
       beforeEnter(to, from, next) {
         if (store.getters.getToken) next()
         else next('/login')

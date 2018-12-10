@@ -1,6 +1,5 @@
 <template>
   <div class="biddingpage">
-    <p>this is bid section</p>
     <div id="currentprice"><span>Current Price: </span>
         {{ currentPrice }}
     </div>
@@ -83,6 +82,11 @@ export default {
   width: 300px;
   background-color: white;
   border-radius: 2px;
-  box-shadow: 0 0 2px 0 #cfcfc4;
+  // box-shadow: 0 0 2px 0 #cfcfc4;
+
+  #currentprice {
+    margin: 10px auto;
+    padding: 5px;
+  }
 }
 </style>
