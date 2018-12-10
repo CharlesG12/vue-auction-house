@@ -1,21 +1,18 @@
 <template>
   <div class="selling-card">
-    <div class="left-box">
+    <div class="upper-box"
+      :style="{ 'background-image': `url('${image}')` }">
+    </div>
+    <div class="lower-box">
       <div class="info">
         <h3 class="title">{{ name }}</h3>
-        <h3>{{ startDate }}</h3>
-        <h3>{{ id }}</h3>
+        <h3 class="start-date">Start at: {{ startDate }}</h3>
         <div> </div>
         <Countdown :end="startDate"></Countdown>
       </div>
-      <div class="bu">
-          <div class="button" @click="delteItem">
-            <span>DELETE</span>
-          </div>
+      <div class="delete" @click="delteItem">
+        <span>DELETE</span>
       </div>
-    </div>
-    <div class="right-box"
-      :style="{ 'background-image': `url('${image}')` }">
     </div>
   </div>
 </template>
@@ -40,80 +37,67 @@ export default {
 
 <style lang="scss">
 .selling-card {
-  width: 580px;
-  height: 230px;
-  background-color: #000;
-  border-radius: 2px;
+  width: 200px;
+  height: 350px;
+  background-color: #111;
+  border-radius: 5px;
   margin: 15px;
-  box-shadow: 0 0 7px 0 #cfcfc4;
+  box-shadow: 0 0 7px 0 #0000007a;
   overflow: hidden;
-  font-family: "Bree Serif", serif;
-  text-transform: uppercase;
 
-  .left-box {
-    float: left;
-    width: 45%;
-    height: 100%;
+  .lower-box {
+    width: 100%;
+    height: 35%;
     margin: 0;
+    position: relative;
 
     .info {
-      height: 75%;
       width: 100%;
       margin: 0px;
-      position: relative;
 
       .title {
-        margin-top: 5px;
-      } 
+        font-size: 14px;
+        margin: 5px;
+      }
+
+      .start-date {
+        font-size: 8px;
+        margin: 3px;
+      }
     }
 
-    .bu {
-      height: 25%;
-
-      .button {
-      background-color: #f9b226;
+    .delete {
+      position: absolute;
+      bottom: 15px;
+      left: 50px;
+      background-color: rgb(139, 0, 0);
+      border-radius: 50px;
       width: 100px;
-      height: 40px;
-      margin: 0 auto;
-      border-radius: 2px;
-      padding: 0px;
-      position: relative;
-
-        span {
-          color: black;
-          font-size: 1em;
-          float: top;
-          padding: 0px;
-          position: relative;
-          top: 7px;
-          margin: 0 auto;
-          font-weight: lighter;
-        }
-
-      }
-    }
-
-    .button:hover {
-      border-color: white;
-      border-style: solid;
-      border-width: 0.5px;
+      height: 28px;
+      padding: 4px;
       cursor: pointer;
-      span {
-        color: white;
-      }
-    }
 
-    h3,
-    Countdown {
-      color: #fff;
-      font-weight: lighter;
+      span {
+        color: #fff;
+        font-family: 'Carter One', cursive;
+        font-size: 12px;
+        float: top;
+        padding: 0px;
+        position: relative;
+        top: -3px;
+        margin: 0 auto;
+        font-weight: lighter;
+      }
+
+      &:hover {
+        background-color: rgb(80, 0, 0);
+      }
     }
   }
 
-  .right-box {
-    float: left;
-    width: 55%;
-    height: 100%;
+  .upper-box {
+    width: 100%;
+    height: 65%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

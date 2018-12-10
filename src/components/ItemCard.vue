@@ -6,7 +6,7 @@
             <div>{{ getItemById[0].name }}</div>
             <div>{{ getItemById[0].description }} </div>
             <div> 
-              <bidlist :bidlist=getItemById[0].bidlist>
+              <bidlist :id=getItemById[0].id :bidlist=getItemById[0].bidlist>
               </bidlist>
             </div>
           </div>
@@ -35,8 +35,7 @@ export default {
   },
   computed: {
     getItemById() {
-      let itemid = this.$route.params.id;
-      return this.$store.getters.getItemById(parseInt(itemid));
+      return this.$store.getters.getItemById();
     }
   },
   methods: {

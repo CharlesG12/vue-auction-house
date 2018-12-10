@@ -1,9 +1,6 @@
 <template>
   <div class="biddingpage">
     <p>this is bid section</p>
-    <div id="startPrice"><span>Start Price: </span>
-        {{ getItemById[0].initialPrice }}
-    </div>
     <div id="currentprice"><span>Current Price: </span>
         {{ currentPrice }}
     </div>
@@ -21,11 +18,11 @@
       </div>
       <button type="button" class="btn btn-success" v-on:click="sumbitbid">Place Bid</button>
     </div>
-   
   </div>
 </template>
 
 <script>
+import axios from "axios"
 
 export default {
   name:"biddingpage",
@@ -34,14 +31,28 @@ export default {
           bidprice: 0
       }
   },
-  props: [ "bidlist" ],
+  props: [ "id", "bidlist" ],
   methods: {
       sumbitbid: function() {
           if ( this.$data.bidprice < this.currentPrice ){
+            
             alert("price too low")
           }
-          else{
-            alert("submit sucess")
+          else{ 
+            let _id = this.$store.getters.getItemById()
+            console.log(_id[0].id) 
+            let _price = this.$data.bidprice
+            axios.patch('http://localhost:3030/bids/', {
+              params: {
+                id:_id,
+                price: _price
+              },
+              headers: {"Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJ1c2VySWQiOiI1YzBkODE5ZTY5MGU1YTZiYTBiNDAzMWUiLCJpYXQiOjE1NDQzODkxMzUsImV4cCI6MTU0NDQ3NTUzNSwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIiwianRpIjoiYzQ2NzYwZjYtNmQ0ZC00YzNiLTkyYzctMjkzYTE3MDM0NWQ2In0.AFJ9CFxfqxP_oLunwLOQIsmv3T7yWzvg7ChwCB3R7AA"}
+            })
+            .then(function (response) { })
+            .catch(function (error) {
+              console.log(error);
+            });
           }
       },
       isNumber: function(evt) {

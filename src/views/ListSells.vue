@@ -34,5 +34,14 @@ export default {
 .sale {
   width: 60%;
   margin: auto;
+
+  .bidItemsSection {
+    width: 460px;
+    margin: 0 auto;
+
+    .selling-card {
+      float: left;
+    }
+  }
 }
 </style>

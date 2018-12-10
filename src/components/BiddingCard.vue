@@ -6,15 +6,12 @@
     <div class="lower-box">
       <div class="info">
         <h3 class="title">{{ name }}</h3>
-        <h3>{{ startDate }}</h3>
+        <h3 class="start-date">Start at: {{ startDate }}</h3>
         <div> </div>
         <Countdown :end="startDate"></Countdown>
       </div>
-      <div class="bu">
-          <div class="button" @click="enterbid">
-            <span>BID</span>
-            <div>NOW</div>
-          </div>
+      <div class="bid-now" @click="enterbid">
+        <span>BID NOW</span>
       </div>
     </div>
   </div>
@@ -41,87 +38,66 @@ export default {
 <style lang="scss">
 .bidding-card {
   width: 200px;
-  height: 400px;
+  height: 350px;
   background-color: #111;
-  border-radius: 2px;
+  border-radius: 5px;
   margin: 15px;
   box-shadow: 0 0 7px 0 #0000007a;
   overflow: hidden;
-  text-transform: uppercase;
 
   .lower-box {
     width: 100%;
-    height: 50%;
+    height: 35%;
     margin: 0;
+    position: relative;
 
     .info {
       width: 100%;
       margin: 0px;
-      position: relative;
 
       .title {
-        font-size: 12px;
-      } 
+        font-size: 14px;
+        margin: 5px;
+      }
+
+      .start-date {
+        font-size: 8px;
+        margin: 3px;
+      }
     }
 
-    .bu {
-      height: 25%;
-
-      .button {
-      background-color: #f9b226;
+    .bid-now {
+      position: absolute;
+      bottom: 15px;
+      left: 50px;
+      background-color: rgb(96, 170, 255);
+      border-radius: 50px;
       width: 100px;
-      height: 40px;
-      margin: 0 auto;
-      border-radius: 2px;
-      padding: 0px;
-      position: relative;
-
-        span {
-          color: black;
-          font-size: 0.7em;
-          float: top;
-          padding: 0px;
-          position: relative;
-          top: -3px;
-          margin: 0 auto;
-          font-weight: lighter;
-        }
-
-        div {
-          color: black;
-          margin: 0px;
-          font-size: 1.2em;
-          margin: 0 auto;
-          position: relative;
-          top: -10px;
-        }
-      }
-    }
-
-    .button:hover {
-      border-color: white;
-      border-style: solid;
-      border-width: 0.5px;
+      height: 28px;
+      padding: 4px;
       cursor: pointer;
+
       span {
-        color: white;
+        color: #fff;
+        font-family: 'Carter One', cursive;
+        font-size: 12px;
+        float: top;
+        padding: 0px;
+        position: relative;
+        top: -3px;
+        margin: 0 auto;
+        font-weight: lighter;
       }
 
-      div {
-        color: white;
+      &:hover {
+        background-color: rgb(52, 109, 175);
       }
-    }
-
-    h3,
-    Countdown {
-      color: #fff;
-      font-weight: lighter;
     }
   }
 
   .upper-box {
     width: 100%;
-    height: 50%;
+    height: 65%;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

@@ -1,12 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import router from "@/router"
+import axios from "axios"
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     loggedIn: true,
+    // token: null,
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJ1c2VySWQiOiI1YzBkODE5ZTY5MGU1YTZiYTBiNDAzMWUiLCJpYXQiOjE1NDQzODkxMzUsImV4cCI6MTU0NDQ3NTUzNSwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIiwianRpIjoiYzQ2NzYwZjYtNmQ0ZC00YzNiLTkyYzctMjkzYTE3MDM0NWQ2In0.AFJ9CFxfqxP_oLunwLOQIsmv3T7yWzvg7ChwCB3R7AA",
     buy_items: [
       {
@@ -116,10 +118,8 @@ export default new Vuex.Store({
     buyitemResult: state => state.buy_items,
     sellitemResult: state => state.sell_items,
     loginStatus: state => state.loggedIn,
-    getItemById: state => (id) => { 
-      console.log(router.currentRoute.params.id)
+    getItemById: state => () => { 
       let current_id = router.currentRoute.params.id;
-     // console.log( state.buy_items.filter( item => item.id === id ))
       let result = state.buy_items.filter( item => item.id === parseInt(current_id) )
       return result === null ? "none" : result;
     },
@@ -129,7 +129,9 @@ export default new Vuex.Store({
   mutations: {
     UPDATE_SELL_LIST(state, result) { state.sell_items = result },
     UPDATE_BID_LIST(state, result) { state.buy_items = result },
-    DELETE_SALE_ITEM(state, result) { state.sell_items = state.sell_items.filter( x => x.id != result )}
+    DELETE_SALE_ITEM(state, result) { state.sell_items = state.sell_items.filter( x => x.id != result )},
+    // UPDATE_CURRENT_ITEM(state, result) { state.buy_items = result }
+    UPDATE_TOKEN(state, result) { state.token = result }
   },
   actions: {
     fetch_sell_list(context, param) {
@@ -142,6 +144,33 @@ export default new Vuex.Store({
     },
     deleteSaleItem(context, param) {
       context.commit('DELETE_SALE_ITEM', param)
+    },
+    updateCurrentItem(context, param) {
+      
+
+      // context.commit(UPDATE_CURRENT_ITEM)
+    },
+    updateToken(context, param) {
+      context.commit('UPDATE_TOKEN', param)
+    },
+    login(context, param) {
+      console.log("in store login");
+      let _body = {
+        "strategy": "local",
+        "email": "siiam@gmail.com",
+        "password": "sam"
+      }
+      axios({ method: "post", 
+              url: "http://localhost:3030/authentication",
+              body: _body
+      }).then(function (response) {
+        alert(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
     }
   }
 });
+
+export default store

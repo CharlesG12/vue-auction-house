@@ -6,14 +6,16 @@
           <label>Title:</label>
         </div>
         <div class="row height-50">
-          <input v-model="title" placeholder="edit me">
+          <input v-model="title" placeholder="edit me" class="form-control">
         </div>
       </div>
       <div class="table">
         <table>
           <tr>
             <td><label class="text">Start Price:</label></td>
-            <td><input type="number" v-model="price" placeholder="enter price"></td>
+            <td>
+              <input type="number" class="form-control" v-model="price" placeholder="enter price">
+            </td>
             <td></td>
           </tr>
           <tr>

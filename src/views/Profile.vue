@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <div class="profile">
 
   </div>
 </template>
@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: "user",
+  name: "profile",
   data() {
     return {
       activeName: 'first'
@@ -19,7 +19,7 @@ export default {
 </script>
 
 <style lang="scss">
-.user {
+.profile {
   width: 80%;
   margin: 0 auto;
   color: black;

@@ -2,23 +2,30 @@
   <div id="app">
     <div id="nav">
       <router-link :to="'/'"><span>Home</span></router-link>
-      <router-link :to="'/user'"><span>Profile</span></router-link>
+      <router-link :to="'/profile'"><span>Profile</span></router-link>
       <router-link :to="'/sale'"><span>Post New</span></router-link>
       <router-link :to="'/listSale'"><span>Sale Items</span></router-link>
+      <a v-if="!$store.getters.getToken" class="login" @click="login">Login</a>
+      <a v-else class="logout" @click="logout">Logout</a>
     </div>
     <router-view/>
-    <!-- <bidding-card name="china"
-      :image="require('@/assets/pics/dish_1.jpg')"
-      desciption="In the seventeenth century, Iranian imitations of Chinese blue-and-white export porcelain increased markedly."
-      initialPrice="20000"
-      startDate="Dec 08 2018 13:20">
-    </bidding-card> -->
   </div>
 </template>
 
 <script>
 export default {
   name: "app",
+  methods: {
+    logout() {
+      this.$store.dispatch("updateToken", null)
+      alert("You are log out now!")
+      this.$router.push({path: '/'})
+    },
+
+    login() {
+      this.$router.push({path: '/login'})
+    }
+  },
   components: {}
 };
 </script>
@@ -52,13 +59,41 @@ body {
       margin: 10px;
       padding: 2px 10px;
       text-decoration: none;
+
+      &:hover {
+        text-decoration: none;
+        background-color: rgb(96, 170, 255);
+        color: #fff;
+        border-radius: 30px;
+      }
     }
-    
-    a:hover {
-      text-decoration: none;
-      background-color: rgb(96, 170, 255);
+
+    .logout {
+      position: absolute;
+      top: -3px;
+      right: 0;
       color: #fff;
-      border-radius: 30px;
+      background-color: rgb(153, 0, 0);
+      border-radius: 50px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgb(102, 0, 0);
+      }
+    }
+
+    .login {
+      position: absolute;
+      top: -3px;
+      right: 0;
+      color: #fff;
+      background-color: rgb(96, 170, 255);
+      border-radius: 50px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgb(44, 90, 143);
+      }
     }
   }
 }
