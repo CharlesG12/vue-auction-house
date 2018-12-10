@@ -8,7 +8,9 @@ import VCalendar from 'v-calendar';
 import 'v-calendar/lib/v-calendar.min.css';
 import AtUI from "at-ui"
 import axios from "axios"
-
+import VModal from 'vue-js-modal'
+ 
+Vue.use(VModal)
 Vue.use(VueCarousel);
 Vue.use(VCalendar);
 Vue.use(AtUI);

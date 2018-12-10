@@ -59,6 +59,26 @@ const router = new Router({
       name: "login",
       component: () => import("@/views/Login.vue")
     },
+    {
+      path: "/auctionschedule",
+      name: "auctionschedule",
+      component: () => 
+        import("@/views/AuctionSchedule.vue"),
+      beforeEnter(to, from, next) {
+        if (store.getters.getToken) next()
+        else next('/login')
+      }
+    },
+    {
+      path: "/editprofile",
+      name: "editprofile",
+      component: () => 
+        import("@/components/EditProfile.vue"),
+      beforeEnter(to, from, next) {
+        if (store.getters.getToken) next()
+        else next('/login')
+      }
+    },
     { path: '/404', component: NotFound },  
     { path: '*', redirect: '/404' },  
   ]

@@ -8,6 +8,12 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   state: {
     loggedIn: true,
+    profile: {
+      // name: null,
+      // email: null
+      name: "sam",
+      email: "siiam@gmail.com"
+    },
     // token: null,
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJ1c2VySWQiOiI1YzBkODE5ZTY5MGU1YTZiYTBiNDAzMWUiLCJpYXQiOjE1NDQzODkxMzUsImV4cCI6MTU0NDQ3NTUzNSwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIiwianRpIjoiYzQ2NzYwZjYtNmQ0ZC00YzNiLTkyYzctMjkzYTE3MDM0NWQ2In0.AFJ9CFxfqxP_oLunwLOQIsmv3T7yWzvg7ChwCB3R7AA",
     buy_items: [
@@ -124,14 +130,16 @@ const store = new Vuex.Store({
       return result === null ? "none" : result;
     },
     getavailableDates: state => state.available_dates,
-    getToken: state => state.token
+    getToken: state => state.token,
+    getProfile: state => state.profile
   },
   mutations: {
     UPDATE_SELL_LIST(state, result) { state.sell_items = result },
     UPDATE_BID_LIST(state, result) { state.buy_items = result },
     DELETE_SALE_ITEM(state, result) { state.sell_items = state.sell_items.filter( x => x.id != result )},
     // UPDATE_CURRENT_ITEM(state, result) { state.buy_items = result }
-    UPDATE_TOKEN(state, result) { state.token = result }
+    UPDATE_TOKEN(state, result) { state.token = result },
+    UPDATE_PROFILE(state, result) { state.profile = result }
   },
   actions: {
     fetch_sell_list(context, param) {
@@ -146,12 +154,14 @@ const store = new Vuex.Store({
       context.commit('DELETE_SALE_ITEM', param)
     },
     updateCurrentItem(context, param) {
-      
 
       // context.commit(UPDATE_CURRENT_ITEM)
     },
     updateToken(context, param) {
       context.commit('UPDATE_TOKEN', param)
+    },
+    updateProfile(context, param) {
+      context.commit('UPDATE_PROFILE', param)
     },
     login(context, param) {
       console.log("in store login");
