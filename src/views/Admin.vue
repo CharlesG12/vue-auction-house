@@ -1,11 +1,8 @@
 <template>
   <div class="admin-login">
     <div class="container">
-      <h3>LOGIN</h3>
+      <h3>Admin Login</h3>
       <form>
-        <div class="form-group">
-            <label>Admin Login</label>
-        </div>
         <div class="form-group">
           <label>Email address</label>
           <input type="email" v-model="email" class="form-control" placeholder="Enter email">
@@ -21,9 +18,9 @@
 </template>
 
 <script>
-import Axios from 'axios';
+import asxios from 'axios';
 export default {
-  name: "login",
+  name: "admin",
   data() {
     return {
       email: null,

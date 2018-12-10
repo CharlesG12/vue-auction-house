@@ -60,6 +60,11 @@ const router = new Router({
       component: () => import("@/views/Login.vue")
     },
     {
+      path: "/admin",
+      name: "admin",
+      component: () => import("@/views/Admin.vue")
+    },
+    {
       path: "/itemtable",
       name: "itemtable",
       component: () => 
