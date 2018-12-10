@@ -1,6 +1,15 @@
 <template>
   <div class="ltemtable">
-
+    <table-component
+        :data="this.$store.state.itemtable"
+        sort-by="songs"
+        sort-order="asc"
+        >
+        <table-column show="name" label="name"></table-column>
+        <table-column show="initialPrice" label="Price"></table-column>
+        <table-column show="startDate" label="StartDate"></table-column>
+        <table-column show="editUrl" label="" :sortable="false" :filterable="false"></table-column>
+    </table-component>
   </div>
 </template>
 
@@ -11,6 +20,9 @@ export default {
   data() {
     return {
     }
+  },
+  methods: {
+    
   },
   components: {
   }
