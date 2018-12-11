@@ -1,7 +1,7 @@
 <template>
   <div class="biddingpage">
     <div id="currentprice"><span>Current Price: </span>
-        {{ currentPrice }}
+        {{ getItemById[0].initialPrice }}
     </div>
     <div id="timer"> 
 
@@ -31,24 +31,32 @@ export default {
       }
   },
   props: [ "id", "bidlist" ],
+  created() {
+    this.interval = setInterval(() => this.$store.dispatch("updateItems"), 5000);
+  },
   methods: {
       sumbitbid: function() {
-          if ( this.$data.bidprice < this.currentPrice ){
-            
+          if ( this.$data.bidprice < this.getItemById[0].initialPrice ){
             alert("price too low")
           }
           else{ 
-            let _id = this.$store.getters.getItemById()
+            let _id = this.$router.currentRoute.params.id;
             console.log(_id[0].id) 
             let _price = this.$data.bidprice
-            axios.patch('http://localhost:3030/bids/', {
-              params: {
-                id:_id,
-                price: _price
-              },
-              headers: {"Authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6ImFjY2VzcyJ9.eyJ1c2VySWQiOiI1YzBkODE5ZTY5MGU1YTZiYTBiNDAzMWUiLCJpYXQiOjE1NDQzODkxMzUsImV4cCI6MTU0NDQ3NTUzNSwiYXVkIjoiaHR0cHM6Ly95b3VyZG9tYWluLmNvbSIsImlzcyI6ImZlYXRoZXJzIiwic3ViIjoiYW5vbnltb3VzIiwianRpIjoiYzQ2NzYwZjYtNmQ0ZC00YzNiLTkyYzctMjkzYTE3MDM0NWQ2In0.AFJ9CFxfqxP_oLunwLOQIsmv3T7yWzvg7ChwCB3R7AA"}
+            let _token = this.$store.state.token
+            let _url = "http://localhost:3030/postitems/" + _id;
+
+            axios({
+              method: "patch",
+              url: _url, 
+              headers: {"Authorization": _token},
+              data: {
+                current_price: _price
+              }
             })
-            .then(function (response) { })
+            .then(function (response) { 
+              console.log(response)
+            })
             .catch(function (error) {
               console.log(error);
             });
@@ -66,11 +74,7 @@ export default {
   },
   computed: {
     getItemById() {
-      let itemid = this.$route.params.id;
-      return this.$store.getters.getItemById(parseInt(itemid));
-    },
-    currentPrice() {
-      return 2400;
+      return this.$store.getters.getItemById();
     }
   },
 };

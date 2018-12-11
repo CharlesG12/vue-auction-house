@@ -23,6 +23,7 @@ export default {
   name: "admin",
   data() {
     return {
+      name: "sam",
       email: 'siiam@gmail.com',
       password: 'sam'
     }
@@ -45,6 +46,7 @@ export default {
         console.log("sucess")
         this.$store.dispatch("updateToken", data.accessToken)
         this.$store.state.isAdmin = true;
+        this.$store.dispatch("updateProfile", { name: this.name, email: this.email })
         this.$router.push({path: '/adminschedule'})
       })
       .catch((error) => {

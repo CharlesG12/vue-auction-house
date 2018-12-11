@@ -4,6 +4,10 @@
       <h3>LOGIN</h3>
       <div>
         <div class="form-group">
+          <label>Name</label>
+          <input type="text" v-model="name" class="form-control" placeholder="Enter name">
+        </div>
+        <div class="form-group">
           <label>Email address</label>
           <input type="email" v-model="email" class="form-control" placeholder="Enter email">
         </div>
@@ -27,6 +31,7 @@ export default {
   name: "login",
   data() {
     return {
+      name: "",
       email: 'siiam@gmail.com',
       password: 'sam'
     }
@@ -48,6 +53,7 @@ export default {
       })
       .then(({ data }) => {
         this.$store.dispatch("updateToken", data.accessToken)
+        this.$store.dispatch("updateProfile", { name: this.name, email: this.email })
         this.$router.push({path: '/'})
       })
       .catch((error) => {

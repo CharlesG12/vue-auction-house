@@ -19,6 +19,7 @@
 
 <script>
 import Countdown from "@/components/Timer.vue";
+import axios from "axios"
 
 export default {
   name: "selling-card",
@@ -27,7 +28,13 @@ export default {
     delteItem: function(event) {
       if (event) {
         console.log(this.id)
-        this.$store.dispatch("deleteSaleItem", parseInt(this.id))
+        // this.$store.dispatch("deleteSaleItem", parseInt(this.id))
+        let _url = "http://localhost:3030/postitems/" + this.id;
+        let _token = this.$store.state.token
+        axios.delete(_url, {headers : { "authorization" : _token }})
+        .then((response) => {
+          this.$emit('delete')
+        })
       }
     }
   },

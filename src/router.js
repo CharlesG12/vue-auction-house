@@ -44,10 +44,10 @@ const router = new Router({
       }
     },
     {
-      path: "/listSale",
-      name: "listSale",
+      path: "/mysales",
+      name: "mysales",
       component: () =>
-        import("@/views/ListSells.vue"),
+        import("@/views/MySales.vue"),
       beforeEnter(to, from, next) {
         if (store.getters.getToken) next()
         else next('/login')

@@ -1,59 +1,24 @@
 <template>
   <div class="postcard">
-    <div class="posting">
-      <div class="title">
-        <div class="row height-50">
-          <label>Title:</label>
-        </div>
-        <div class="row height-50">
-          <input v-model="title" placeholder="edit me" class="form-control">
-        </div>
-      </div>
-      <div class="table">
-        <table>
-          <tr>
-            <td><label class="text">Start Price:</label></td>
-            <td>
-              <input type="number" class="form-control" v-model="price" placeholder="enter price">
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><label>Select Date:</label></td>
-            <td>
-              <v-date-picker 
-                class="datepicker" mode="single"
-                :available-dates="this.availableDate"
-                v-model='selectedDate'>
-              </v-date-picker>
-            </td>
-            <td>
-              <select v-model="selectedTime" class="options">
-                <option disabled value="">Please select time</option>
-                <option v-for="slot in openSlots" :key="slot">{{ slot }}</option>
-              </select>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div class="desription">
-        <div class="row height-10">
-          <label>Description:</label>
-        </div>
-        <div class="row height-90">
-          <textarea v-model="description" placeholder="add multiple lines"></textarea> 
-        </div>
-      </div>
-      <div class="image">
-        <div class="row">
-          <label>Picture:</label>
-          <input type="file" @change="onFileChanged">
-        </div>
-      </div>
-      <div class="button" @click="onUpload">
-        <span class="text">submit</span> 
-      </div>
+    <div class="container">
+      <label>Name</label>
+      <input v-model="title" placeholder="enter name" class="form-control">
+      <label>Price</label>
+      <input type="number" class="form-control" v-model="price" placeholder="enter price">
+      <label>Start date</label>
+      <input type="date" v-model="selectedDate" class="form-control">
+      <label>Time slot</label>
+      <select v-model="selectedTime" class="form-control">
+        <option disabled value="">Please select time</option>
+        <option v-for="slot in openSlots" :key="slot">{{ slot }}</option>
+      </select>
+      <!-- <label>Description</label> -->
+      <!-- <textarea class="form-control" v-model="description"></textarea> -->
+      <label>Upload image</label>
+      <input type="file" accept="image/*" class="upload-image form-control" @change="onFileChanged">
+      <button class="submit btn btn-primary" @click="testing">Submit</button>
     </div>
+    
   </div>
 </template>
 
@@ -69,7 +34,7 @@ export default {
       selectedDate: null,
       selectedTime: null,
       selectedFile: null,
-      description: "",
+      // description: "",
       openSlots: ["13:20-13:40", "13:40-14:00", "14:00-14:20"],
       availableDate: null
     }
@@ -95,6 +60,33 @@ export default {
     onFileChanged (event) {
       this.selectedFile = event.target.files[0]
     },
+    testing() {
+      console.log("upload testing")
+      let _token = this.$store.state.token
+      console.log(this.title)
+      console.log(this.price)
+      console.log(this.selectedDate)
+      console.log(this.selectedTime)
+      let img_url = "https://static1.squarespace.com/static/59413d96e6f2e1c6837c7ecd/t/5b7232f31ae6cfe55027a722/1535309412013/VVRRR%C2%A0-+Manolo+April%2C+2018?format=750w"
+
+      let regex = /([\d]*:[\d]*)/;
+      let regex2 = /-([\d]*:[\d]*)/;
+      let timeslot = "13:20-13:40";
+      let startTime =  this.selectedDate + " " + timeslot.match(regex)[1];
+      let endTime =  this.selectedDate + " " + timeslot.match(regex2)[1];
+      console.log(startTime)
+      console.log(endTime)
+
+      axios.post('http://localhost:3030/postitems', { 
+            product_name: this.title, 
+            current_price: this.price,
+            start_time: startTime,
+            end_time: endTime,
+            accessToken: _token})
+        .then(function(response){
+          console.log('saved successfully')
+        });  
+    },
     onUpload: function(event) {
       if (event) {
         const fd = new FormData();
@@ -112,6 +104,8 @@ export default {
         fd.set("start_time", startTime);
         fd.set("end_time", endTime);
         fd.set("accessToken", this.$store.getters.getToken)
+
+
         
         console.log("title " + this.$data.title);
         console.log("price " + this.$data.price);
@@ -133,159 +127,18 @@ export default {
 
 <style lang="scss">
 .postcard {
-
-  .posting {
-    height: 500px;
-    width: 600px;
+  .container {
+    width: 400px;
     margin: 0 auto;
-    position: relative;
-    background-color: white;
-    border-radius: 2px;
-    overflow: hidden;
-    box-shadow: 0 0 7px 0 #cfcfc4;
-    font-family: "Bree Serif", serif;
+    text-align: left;
+    color: #000;
 
-    .row {
-      width: 100%;
+    label {
+      margin-top: 10px;
     }
 
-    .title {
-      width: 100%;
-      height: 10%;
-      margin: 20px 0px 0px 10px;
-
-      .height-10 {
-        height: 10%;
-        width: 100%;
-      }
-
-      .height-90 {
-        height: 90%;
-        width: 100%;
-      }
-
-      label, input {
-        color: black;
-        position: relative;
-        float: left;
-      }
-
-      label {
-        height: 10%;
-      }
-
-      input {
-        width: 90%;
-        height: 90%;
-      }
-    }
-
-    .table{
-      height: 15%;
-      width: 80%;
-      margin: 0px;
-      padding-left: 5px;
-
-      .options {
-        color: black;
-      }
-
-      table {
-        height: 100%;
-        width: 80%
-      }
-
-      tr {
-        margin: 10px 0px 0px 0px;
-        height: 50%;
-      }
-
-      td{
-        height: 100%;
-        padding-left: 0px;
-        margin-left: 0px;
-        white-space:nowrap;
-      }
-
-      label{
-        color: black;
-      }
-
-      select {
-        height: 24.5px;;
-      }
-    }
-
-    .desription {
-      width: 100%;
-      height: 50%;
-      margin: 10px 0px 0px 10px;
-
-      .height-10 {
-        height: 10%;
-        width: 100%;
-      }
-
-      .height-90 {
-        height: 90%;
-        width: 100%;
-      }
-
-      label, textarea {
-        color: black;
-        position: relative;
-        float: left;
-      }
-
-      label {
-        height: 10%;
-      }
-
-      textarea {
-        width: 98%;
-        height: 90%;
-      }
-    }
-
-    .image {
-      height: 5%;
-      width: 100%;
-      margin: 0px 0px 20px 5px;
-      float: left;
-
-      label {
-        color: black;
-        width: 60px;
-        float: left;
-      }
-
-      input {
-        float: left;
-      }
-    }
-
-    .button {
-      background-color: red;
-      height: 30px;
-      width: 150px;
-      margin: 5px auto;
-      border-radius: 2px;
-
-      .text {
-        font-size: 14px;
-        margin: 0 auto;
-        top: 10%;
-        position: relative;
-        transform: translateY(-50%);
-      }
-    }
-
-    .button:hover {
-      box-shadow: 0 0 10px 0 #cfcfc4;
-      cursor: pointer;
-      .text {
-        font-size: 15px;
-      }
+    .submit {
+      margin: 10px 0;
     }
   }
 }

@@ -6,7 +6,7 @@
             <div>{{ getItemById[0].name }}</div>
             <div>{{ getItemById[0].description }} </div>
             <div> 
-              <bidlist :id=getItemById[0].id :bidlist=getItemById[0].bidlist>
+              <bidlist :id="getItemById[0]" :bidlist="getItemById[0].bidlist">
               </bidlist>
             </div>
           </div>
@@ -28,14 +28,32 @@ import bid from "@/components/biddingpage/bid.vue"
 
 export default {
   name: "itemcard",
+  data() {
+    return {
+      _item: {}
+    }
+  },
   watch: {
     '$route' (to, from) {
       alert(to.params.id);
     }
   },
+  
   computed: {
     getItemById() {
       return this.$store.getters.getItemById();
+    },
+    getItem() {
+      this.$store.dispatch("updateItems").then(() => {
+        let _data = this.$store.state.items
+        let _id = this.$router.currentRoute.params.id;
+        console.log(_id)
+        let _result = _data.filter( x => x.id === _id )
+        console.log(_result[0])
+        return _result[0]
+        // this._item.splice(0, this._item.length)
+        // this._item.push(..._result)
+      })
     }
   },
   methods: {

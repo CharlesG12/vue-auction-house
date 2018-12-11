@@ -54,6 +54,7 @@ export default {
       })
       .then(({ data }) => {
         this.$store.dispatch("updateToken", data.accessToken)
+        this.$store.dispatch("updateProfile", { name: this.name, email: this.email })
         this.$router.push({path: '/'})
       })
       .catch((error) => {

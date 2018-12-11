@@ -1,22 +1,13 @@
 <template>
   <div class="buy">
+    <div class="date-selection">
+      <input type='date' class="form-control"/>
+      <span>to</span>
+      <input type='date' class="form-control" />
+      <button class="btn btn-primary" @click="search">Search</button>
+    </div>
     <div class="bidItemsSection">
-      <div class="row date-select">
-        <div class="col"></div>
-        <div class="col">
-          <v-date-picker 
-            class="datepicker" mode="range"
-            :min-date='new Date()'
-            v-model="this.selectedDates"
-            show-caps>
-          </v-date-picker>
-        </div>
-        <div class="col">
-          <button @click="updateSellItems">UPDATE</button>
-        </div>
-        <div class="col"></div>
-      </div>
-      <bidding-card v-for="(item, index) in getbuyItems"
+      <bidding-card v-for="(item, index) in this.$store.state.items"
         :key=index
         :id="item.id"
         :name="item.name"
@@ -40,18 +31,27 @@ export default {
       }
     }
   },
+  created() {
+    this.interval = setInterval(() => this.$store.dispatch("updateItems"), 5000);
+  },
   methods: {
     updateSellItems() {
-      console.log("hi")
+      // console.log("hi")
       // console.log(this.selectedDates)
-      let range = this.$store.state.sell_date_range
-      this.$store.dispatch("getSellItemsInRange", range)
+      // let range = this.$store.state.sell_date_range
+      // this.$store.dispatch("getSellItemsInRange", range)
+    },
+    search() {
+      this.$store.dispatch("updateItems")
+
+      
     }
+
   },
   computed: {
     getbuyItems() {
-      console.log( this.$store.getters.buyitemResult )
-      return this.$store.getters.buyitemResult;
+      // console.log( this.$store.getters.buyitemResult )
+      // return this.$store.getters.buyitemResult;
     }
   },
   components: {
@@ -65,30 +65,32 @@ export default {
   width: 60%;
   margin: 0 auto;
 
+  .date-selection {
+    margin: 10px;
+    color: #000;
+
+    input {
+      display: inline-block;
+      width: 150px;
+      height: 28px;
+      margin: 10px;
+      font-size: 12px;
+    }
+
+    button {
+      display: inline-block;
+      height: 28px;
+      margin: 10px;
+      font-size: 12px;
+    }
+  }
+
   .bidItemsSection {
     width: 460px;
     margin: 5px auto;
 
     .bidding-card {
       float: left;
-    }
-
-    .date-select{
-      button {
-        border-radius: 3px;
-      }
-    }
-  }
-
-  .dateSe {
-    margin: 10px 0px 0px 0px;
-    
-    .datepicker {
-      margin: 0 auto;
-    }
-
-    a {
-      color: black;
     }
   }
 }
