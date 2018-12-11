@@ -13,7 +13,9 @@
           <div class="image">
             <div class="image" :style="{ 'background-image': `url('${getItemById[0].image}')` }"></div>
             <div>
-              <bid>
+              <bid :date="getItemById[0].date" 
+                    :starttime="getItemById[0].start_time" 
+                    :endtime="getItemById[0].end_time">
               </bid>
             </div>
           </div>

@@ -4,7 +4,6 @@
         {{ getItemById[0].initialPrice }}
     </div>
     <div id="timer"> 
-
     </div>
     <div id="biddingbox"> 
       <div class="input-group mb-3">
@@ -27,41 +26,64 @@ export default {
   name:"biddingpage",
   data() {
       return {
-          bidprice: 0
+          bidprice: 0,
+          timenow: new Date()
       }
   },
-  props: [ "id", "bidlist" ],
+  props: [ "id", "date", "bidlist", "starttime", "endtime"],
   created() {
     this.interval = setInterval(() => this.$store.dispatch("updateItems"), 5000);
   },
   methods: {
       sumbitbid: function() {
-          if ( this.$data.bidprice < this.getItemById[0].initialPrice ){
-            alert("price too low")
-          }
-          else{ 
-            let _id = this.$router.currentRoute.params.id;
-            console.log(_id[0].id) 
-            let _price = this.$data.bidprice
-            let _token = this.$store.state.token
-            let _url = "http://localhost:3030/postitems/" + _id;
+          console.log(this.timenow)
+          let data = this.$store.getters.getItemById()
+          let _starttime = data[0].startDate
+          let _endtime = data[0].endDate
+          console.log(data)
+          console.log(_starttime)
+          console.log(_endtime)
+          console.log(this.timenow.getTime())
 
-            axios({
-              method: "patch",
-              url: _url, 
-              headers: {"Authorization": _token},
-              data: {
-                current_price: _price
-              }
-            })
-            .then(function (response) { 
-              console.log(response)
-              this.$store.dispatch("updateItems")
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          let startDate = new Date(_starttime)
+          let endDate = new Date(_endtime)
+          console.log(startDate.getTime())
+          console.log(endDate.getTime())
+
+
+          if( this.timenow.getTime() > startDate.getTime() && this.timenow.getTime() < endDate.getTime()){
+            console.log("ok to bid")
+            if ( this.$data.bidprice < this.getItemById[0].initialPrice ){
+            alert("price too low")
+            }
+            else{ 
+              let _id = this.$router.currentRoute.params.id;
+              console.log(_id[0].id) 
+              let _price = this.$data.bidprice
+              let _token = this.$store.state.token
+              let _url = "http://localhost:3030/postitems/" + _id;
+
+              axios({
+                method: "patch",
+                url: _url, 
+                headers: {"Authorization": _token},
+                data: {
+                  current_price: _price
+                }
+              })
+              .then(function (response) { 
+                console.log(response)
+                this.$store.dispatch("updateItems")
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            }
           }
+          else{
+            console.log("Can Not bid now!")
+          }
+          
       },
       isNumber: function(evt) {
         evt = (evt) ? evt : window.event;

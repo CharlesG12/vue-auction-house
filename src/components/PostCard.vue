@@ -12,13 +12,12 @@
         <option disabled value="">Please select time</option>
         <option v-for="slot in openSlots" :key="slot">{{ slot }}</option>
       </select>
-      <!-- <label>Description</label> -->
-      <!-- <textarea class="form-control" v-model="description"></textarea> -->
+      <label>Description</label>
+      <textarea class="form-control" v-model="description"></textarea>
       <label>Upload image</label>
       <input type="file" accept="image/*" class="upload-image form-control" @change="onFileChanged">
       <button class="submit btn btn-primary" @click="testing">Submit</button>
     </div>
-    
   </div>
 </template>
 
@@ -34,7 +33,7 @@ export default {
       selectedDate: null,
       selectedTime: null,
       selectedFile: null,
-      // description: "",
+      description: null,
       openSlots: ["13:20-13:40", "13:40-14:00", "14:00-14:20"],
       availableDate: null
     }
@@ -65,62 +64,68 @@ export default {
       let _token = this.$store.state.token
       console.log(this.title)
       console.log(this.price)
-      console.log(this.selectedDate)
-      console.log(this.selectedTime)
+      // console.log(this.selectedDate)
+      // console.log(this.selectedTime)
       let img_url = "https://static1.squarespace.com/static/59413d96e6f2e1c6837c7ecd/t/5b7232f31ae6cfe55027a722/1535309412013/VVRRR%C2%A0-+Manolo+April%2C+2018?format=750w"
 
       let regex = /([\d]*:[\d]*)/;
       let regex2 = /-([\d]*:[\d]*)/;
       let timeslot = "13:20-13:40";
-      let startTime =  this.selectedDate + " " + timeslot.match(regex)[1];
-      let endTime =  this.selectedDate + " " + timeslot.match(regex2)[1];
+      let startTime =  timeslot.match(regex)[1];
+      let endTime =  timeslot.match(regex2)[1];
       console.log(startTime)
       console.log(endTime)
+      console.log(this.description)
+      console.log(img_url)
 
       axios.post('http://localhost:3030/postitems', { 
             product_name: this.title, 
             current_price: this.price,
+            date: this.selectedDate,
             start_time: startTime,
             end_time: endTime,
+            description: this.description,
+            url: img_url,
             accessToken: _token})
         .then(function(response){
           console.log('saved successfully')
+          alert("Post Success")
         });  
     },
-    onUpload: function(event) {
-      if (event) {
-        const fd = new FormData();
-        fd.append('image', this.selectedFile, this.selectedFile.name)
-        fd.set("product_name", this.$data.title);
-        fd.set("current_price", this.$data.price);
+    // onUpload: function(event) {
+    //   if (event) {
+    //     const fd = new FormData();
+    //     fd.append('image', this.selectedFile, this.selectedFile.name)
+    //     fd.set("product_name", this.$data.title);
+    //     fd.set("current_price", this.$data.price);
 
-        let regex = /([\d]*:[\d]*)/;
-        let timeslot = "13:20-13:40";
-        let startDate = this.$data.selectedDate
-        let date = startDate.getDay() + " " + startDate.getMonth() + " " + startDate.getFullYear()
-        let startTime =  date + " " + timeslot.match(regex)[1];
-        let endTime = date + " " + timeslot.match(regex)[2];
+    //     let regex = /([\d]*:[\d]*)/;
+    //     let timeslot = "13:20-13:40";
+    //     let startDate = this.$data.selectedDate
+    //     let date = startDate.getDay() + " " + startDate.getMonth() + " " + startDate.getFullYear()
+    //     let startTime =  date + " " + timeslot.match(regex)[1];
+    //     let endTime = date + " " + timeslot.match(regex)[2];
 
-        fd.set("start_time", startTime);
-        fd.set("end_time", endTime);
-        fd.set("accessToken", this.$store.getters.getToken)
+    //     fd.set("start_time", startTime);
+    //     fd.set("end_time", endTime);
 
+    //     fd.set("accessToken", this.$store.getters.getToken)
 
         
-        console.log("title " + this.$data.title);
-        console.log("price " + this.$data.price);
-        console.log("description " + this.$data.description);
-        console.log("time " + startTime);
-        console.log(fd)
-        axios.post('http://localhost:3030/postitems', fd)
-          .then(function (response) {
-            console.log(response);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-    }
+    //     console.log("title " + this.$data.title);
+    //     console.log("price " + this.$data.price);
+    //     console.log("description " + this.$data.description);
+    //     console.log("time " + startTime);
+    //     console.log(fd)
+    //     axios.post('http://localhost:3030/postitems', fd)
+    //       .then(function (response) {
+    //         console.log(response);
+    //       })
+    //       .catch(function (error) {
+    //         console.log(error);
+    //       });
+    //   }
+    // }
   }
 }
 </script>
