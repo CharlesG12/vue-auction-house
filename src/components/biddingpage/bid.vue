@@ -56,6 +56,7 @@ export default {
             })
             .then(function (response) { 
               console.log(response)
+              this.$store.dispatch("updateItems")
             })
             .catch(function (error) {
               console.log(error);

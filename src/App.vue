@@ -20,9 +20,10 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("updateToken", null)
+      this.$router.push({path: '/'})
       this.$store.state.isAdmin = false
       alert("You are log out now!")
-      this.$router.push({path: '/'})
+      // this.$router.push({path: '/'})
     },
 
     login() {

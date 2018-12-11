@@ -64,14 +64,16 @@ const router = new Router({
       }
     },
     {
+      path: "/forgotpassword",
+      name: "forgotpassword",
+      component: () =>
+        import("@/views/PwsRetrieve.vue")
+    },
+    {
       path: "/schedule",
       name: "schedule",
       component: () =>
-        import("@/views/Schedule.vue"),
-      beforeEnter(to, from, next) {
-        if (store.getters.getToken) next()
-        else next('/login')
-      }
+        import("@/views/Schedule.vue")
     },
     {
       path: "/login",

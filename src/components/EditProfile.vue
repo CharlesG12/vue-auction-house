@@ -10,10 +10,10 @@
           <label>EmailAddress</label>
           <input type="email" v-model="email" class="form-control" placeholder="Enter Email">
         </div>
-        <!-- <div class="form-group">
+        <div class="form-group">
           <label>Password</label>
           <input type="password" v-model="password" class="form-control" placeholder="Password">
-        </div> -->
+        </div>
         <button @click="submitChange" class="btn btn-primary">Submit Change</button>
       </div>
     </div>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import axios from "axios"
 
 export default {
   name: "editprofile",
@@ -28,12 +29,18 @@ export default {
     return {
         name: this.$store.getters.getProfile.name,
         email: this.$store.getters.getProfile.email,
+        password: "hi"
     }
   },
   methods: {
     submitChange() {
       this.$store.dispatch("updateProfile", { name: this.name, email: this.email });
       this.$router.push({path: "/profile"})
+      axios.patch("http://localhost:3030/users", {
+        	username: this.name,
+          email: this.email,
+          password: this.password
+      })
     }
   },
   computed: {

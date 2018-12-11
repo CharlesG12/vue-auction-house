@@ -1,36 +1,59 @@
 <template>
   <div class="schedule">
-    <p>Auction Schedule</p>
+    <div class="container">
+      <table-component
+        :data="this.$store.getters.getauctionschedule"
+        sort-by="date"
+        sort-order="asc">
+        <table-column show="date" label="Date"></table-column>
+        <table-column show="start_time" label="Start Time"></table-column>
+        <table-column show="end_time" label="End Time">
+        </table-column>
+    </table-component>
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "schedule",
-  methods: {
-    editProfile() {
-      this.$router.push({path:"/editprofile"})
+  data() {
+    return {
+      auction_schedule: ["hi"]
     }
   },
-  computed: {
-    getprofile() {
-      console.log(this.$store.getters.getProfile)
-      return this.$store.getters.getProfile
+  created() {
+    this.$store.dispatch("getAllTimeSlots")
+    console.log("!!!!!!!!")
+    let _data = this.$store.getters.getauctionschedule
+    
+    console.log( this.auction_schedule )
+    console.log( _data )
+    this.auction_schedule  = _data
+    
+    this.interval = setInterval(() => this.$store.dispatch("getAllTimeSlots"), 5000);
+  },
+  methods: {
+    getschedule() {
+      let _schedule = this.$store.getters.getauctionschedule
+      console.log(_schedule)
+      return _schedule
     }
-  }
-};
+  },
+}
+    
 </script>
 
 <style lang="scss">
+@import 'table-component';
 .schedule {
-  width: 80%;
-  margin: 0 auto;
-  color: black;
+  color: #000;
+  text-align: left;
 
-  .card {
+  .container {
+    width: 600px;
+    padding: 10px;
     margin: 10px auto;
   }
-
 }
 </style>

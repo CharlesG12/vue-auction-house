@@ -32,6 +32,7 @@ export default {
     }
   },
   created() {
+    this.$store.dispatch("updateItems")
     this.interval = setInterval(() => this.$store.dispatch("updateItems"), 5000);
   },
   methods: {

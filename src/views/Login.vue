@@ -31,9 +31,9 @@ export default {
   name: "login",
   data() {
     return {
-      name: "",
-      email: 'siiam@gmail.com',
-      password: 'sam'
+      name: "Froja",
+      email: 'Froja@gmail.com',
+      password: 'Froja'
     }
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
       })
     },
     retrievepassword(){
-      alert("retrieve password")
+      this.$router.push({path: "/forgotpassword"})
     }
   }
 }
