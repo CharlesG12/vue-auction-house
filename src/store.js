@@ -33,6 +33,9 @@ const store = new Vuex.Store({
         date: new Date(2018, 11, 14),
         timeslots: ["13:20-13:40", "13:40-14:00", "14:00-14:20"]
       }
+    ],
+    my_bidlist: [
+
     ]
   },
   getters: {
@@ -53,7 +56,8 @@ const store = new Vuex.Store({
     UPDATE_PROFILE(state, result) { state.profile = result },
     UPDATE_ITEM_TABLE(state, result) { state.profile = result },
     UPATE_ITEMS(state, result) { state.items = result },
-    GET_ALL_TIME_SLOTS(state, result) { state.schedule = result }
+    GET_ALL_TIME_SLOTS(state, result) { state.schedule = result },
+    ADD_TO_BIDLIST(state, result) { state.my_bidlist = result }
   },
   actions: {
     updateToken(context, param) {

@@ -58,16 +58,17 @@ export default {
             }
             else{ 
               let _id = this.$router.currentRoute.params.id;
-              console.log(_id[0].id) 
+              console.log(_id) 
               let _price = this.$data.bidprice
               let _token = this.$store.state.token
               let _url = "http://localhost:3030/postitems/" + _id;
-
+              let bidder = this.$store.state.profile.name
               axios({
                 method: "patch",
                 url: _url, 
                 headers: {"Authorization": _token},
                 data: {
+                  top_bidder: bidder,
                   current_price: _price
                 }
               })
