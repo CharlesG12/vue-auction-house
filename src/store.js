@@ -34,9 +34,7 @@ const store = new Vuex.Store({
         timeslots: ["13:20-13:40", "13:40-14:00", "14:00-14:20"]
       }
     ],
-    my_bidlist: [
-
-    ]
+    bidlist: []
   },
   getters: {
     getallItems: state => state.items,
@@ -46,6 +44,7 @@ const store = new Vuex.Store({
       let result = state.items.filter( item => item.id === current_id )
       return result === null ? "none" : result;
     },
+    getALLbidlist: state => state.bidlist,
     getavailableDates: state => state.available_dates,
     getToken: state => state.token,
     getProfile: state => state.profile,
@@ -57,7 +56,7 @@ const store = new Vuex.Store({
     UPDATE_ITEM_TABLE(state, result) { state.profile = result },
     UPATE_ITEMS(state, result) { state.items = result },
     GET_ALL_TIME_SLOTS(state, result) { state.schedule = result },
-    ADD_TO_BIDLIST(state, result) { state.my_bidlist = result }
+    GET_ALL_BIDLIST(state, result) { state.bidlist = result }
   },
   actions: {
     updateToken(context, param) {
@@ -118,8 +117,27 @@ const store = new Vuex.Store({
                             }
           _timeslots.push(_timeslote)
         }
-        // console.log(_timeslots)
+        console.log(_timeslots)
         context.commit("GET_ALL_TIME_SLOTS", _timeslots)
+      })
+    },
+    getAllbidList(context){
+      axios.get("http://localhost:3030/bids")
+      .then(function(response){
+        // console.log(response)
+        let _bids = []
+        let _data = response.data.data
+        for( var i = 0; i < _data.length; i++ ){
+          // console.log(_data[i])
+          let _bid = {  itemid: _data[i].product_id,
+                        date: _data[i].createdAt,
+                        bidder: _data[i].bidder,
+                        price: _data[i].current_price
+                            }
+          _bids.push(_bid)
+        }
+        console.log(_bids)
+        context.commit("GET_ALL_BIDLIST", _bids)
       })
     }
   }

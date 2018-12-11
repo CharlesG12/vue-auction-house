@@ -5,12 +5,12 @@
       <input v-model="title" placeholder="enter name" class="form-control">
       <label>Price</label>
       <input type="number" class="form-control" v-model="price" placeholder="enter price">
-      <label>Start date</label>
-      <input type="date" v-model="selectedDate" class="form-control">
+      <!-- <label>Start date</label>
+      <input type="date" v-model="selectedDate" class="form-control"> -->
       <label>Time slot</label>
-      <select v-model="selectedTime" class="form-control">
+      <select ref="slotSelection" v-model="selectedTime" class="form-control">
         <option disabled value="">Please select time</option>
-        <option v-for="slot in openSlots" :key="slot">{{ slot }}</option>
+        <option v-for="(slot, index) in $store.state.schedule" :key="index">{{ `${slot.date} ${slot.start_time}~${slot.end_time}` }}</option>
       </select>
       <label>Description</label>
       <textarea class="form-control" v-model="description"></textarea>
@@ -39,20 +39,23 @@ export default {
     }
   },
   created() {
-    let data = this.$store.getters.getavailableDates
-    let _avaDates = []
-    for(var i = 0; i < data.length; i++) {
-      _avaDates.push({ start: data[i].date, end: data[i].date})
-    }
+    this.$store.dispatch("getAllTimeSlots")
 
-    this.availableDate = _avaDates
+    // let data = this.$store.getters.getavailableDates
+    // let _avaDates = []
+    // for(var i = 0; i < data.length; i++) {
+    //   _avaDates.push({ start: data[i].date, end: data[i].date})
+    // }
+    // this.availableDate = _avaDates
+
+    let _slots = this.$store.state.schedule
+    console.log(_slots)
+
   },
-  watch: {
-    selectedDate: function(val) {
-      let data = this.$store.getters.getavailableDates
-      let temp = data.filter( x => x.date.getTime() === val.getTime() )
-      this.openSlots = temp[0].timeslots
-      // console.log(temp[0])
+  computed: {
+    selectedSlot: function(val) {
+      let index = this.$refs.slotSelection.selectedIndex - 1
+      return this.$store.state.schedule[index]
     }
   },
   methods: {
@@ -64,26 +67,19 @@ export default {
       let _token = this.$store.state.token
       console.log(this.title)
       console.log(this.price)
-      // console.log(this.selectedDate)
-      // console.log(this.selectedTime)
       let img_url = "https://static1.squarespace.com/static/59413d96e6f2e1c6837c7ecd/t/5b7232f31ae6cfe55027a722/1535309412013/VVRRR%C2%A0-+Manolo+April%2C+2018?format=750w"
-
-      let regex = /([\d]*:[\d]*)/;
-      let regex2 = /-([\d]*:[\d]*)/;
-      let timeslot = "13:20-13:40";
-      let startTime =  timeslot.match(regex)[1];
-      let endTime =  timeslot.match(regex2)[1];
-      console.log(startTime)
-      console.log(endTime)
+      console.log(this.selectedSlot.date)
+      console.log(this.selectedSlot.start_time)
+      console.log(this.selectedSlot.end_time)
       console.log(this.description)
       console.log(img_url)
 
       axios.post('http://localhost:3030/postitems', { 
             product_name: this.title, 
             current_price: this.price,
-            date: this.selectedDate,
-            start_time: startTime,
-            end_time: endTime,
+            date: this.selectedSlot.date,
+            start_time: this.selectedSlot.start_time,
+            end_time: this.selectedSlot.end_time,
             description: this.description,
             url: img_url,
             accessToken: _token})

@@ -1,12 +1,21 @@
 <template>
   <div class="bidlist">
-    <p>this is bid list</p>
-    <ul>
+    <!-- <p>this is bid list</p> -->
+    <!-- <ul>
       <li v-for="(item, index) in bidlist" :key=index>
-        <span class="time">{{ item.time }}</span>
-        <span class="bid">{{ item.price }}</span>
+        <span class="time">{{ item.date }}</span>
+        <span class="time">{{ item.bidder }}</span>
+        <span class="bid">{{ item.seller }}</span>
       </li>
-    </ul>  
+    </ul>   -->
+    <table-component
+        :data="bidlist"
+        sort-by="date"
+        sort-order="asc">
+        <table-column show="date" label="Date"></table-column>
+        <table-column show="bidder" label="Bidder"></table-column>
+        <table-column show="price" label="Price"></table-column>
+    </table-component>
   </div>
 </template>
 
@@ -19,6 +28,8 @@ export default {
 </script>
 
 <style lang="scss">
+// @import 'table-component';
+
 .bidlist {
   height: 300px;
   width: 200px;

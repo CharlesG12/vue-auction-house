@@ -6,7 +6,7 @@
             <div>{{ getItemById[0].name }}</div>
             <div>{{ getItemById[0].description }} </div>
             <div> 
-              <bidlist :id="getItemById[0]" :bidlist="getItemById[0].bidlist">
+              <bidlist :bidlist="bidlist">
               </bidlist>
             </div>
           </div>
@@ -32,15 +32,22 @@ export default {
   name: "itemcard",
   data() {
     return {
-      _item: {}
+      _item: {},
+      bidlist: []
     }
+  },
+  created() {
+    this.$store.dispatch("getAllbidList")
+    this.interval = setInterval(() => this.$store.dispatch("getAllbidList"), 3000);
+    this.getbidlist()
+    this.interval = setInterval(() => this.getbidlist(), 1000);
+    
   },
   watch: {
     '$route' (to, from) {
       alert(to.params.id);
     }
   },
-  
   computed: {
     getItemById() {
       return this.$store.getters.getItemById();
@@ -51,7 +58,7 @@ export default {
         let _id = this.$router.currentRoute.params.id;
         console.log(_id)
         let _result = _data.filter( x => x.id === _id )
-        console.log(_result[0])
+        // console.log(_result[0])
         return _result[0]
         // this._item.splice(0, this._item.length)
         // this._item.push(..._result)
@@ -59,8 +66,16 @@ export default {
     }
   },
   methods: {
-    methodToRunOnSelect(payload) {
-      this.object = payload;
+    getbidlist() {
+      let _data = this.$store.state.bidlist
+      // console.log(_data)
+      let _itemid = this.$router.currentRoute.params.id;
+      // console.log(_itemid)
+      let _result = _data.filter( x => x.itemid === _itemid )
+      // console.log(_result)
+      // this.mysales.splice(0, this.mysales.length)
+      // this.mysales.push(..._result)
+      this.bidlist = _data
     }
   },
   components: {
@@ -71,6 +86,8 @@ export default {
 </script>
 
 <style lang="scss">
+// @import 'table-component';
+
 .itemcard {
   width: 680px;
   height: 600px;

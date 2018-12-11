@@ -40,15 +40,15 @@ export default {
           let data = this.$store.getters.getItemById()
           let _starttime = data[0].startDate
           let _endtime = data[0].endDate
-          console.log(data)
-          console.log(_starttime)
-          console.log(_endtime)
-          console.log(this.timenow.getTime())
+          // console.log(data)
+          // console.log(_starttime)
+          // console.log(_endtime)
+          // console.log(this.timenow.getTime())
 
           let startDate = new Date(_starttime)
           let endDate = new Date(_endtime)
-          console.log(startDate.getTime())
-          console.log(endDate.getTime())
+          // console.log(startDate.getTime())
+          // console.log(endDate.getTime())
 
 
           if( this.timenow.getTime() > startDate.getTime() && this.timenow.getTime() < endDate.getTime()){
@@ -59,22 +59,27 @@ export default {
             else{ 
               let _id = this.$router.currentRoute.params.id;
               console.log(_id) 
+              //alert(_id)
               let _price = this.$data.bidprice
               let _token = this.$store.state.token
               let _url = "http://localhost:3030/postitems/" + _id;
               let bidder = this.$store.state.profile.name
+
               axios({
                 method: "patch",
                 url: _url, 
                 headers: {"Authorization": _token},
                 data: {
                   top_bidder: bidder,
-                  current_price: _price
+                  current_price: _price,
+                  product_id: _id
                 }
               })
               .then(function (response) { 
                 console.log(response)
                 this.$store.dispatch("updateItems")
+                this.$store.dispatch("getAllbidList")
+                alert("bid suceesed")
               })
               .catch(function (error) {
                 console.log(error);
@@ -82,6 +87,7 @@ export default {
             }
           }
           else{
+            alert("Can Not bid now!")
             console.log("Can Not bid now!")
           }
           
